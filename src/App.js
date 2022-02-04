@@ -1,23 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import NavBar from "./components/NavBar";
+import GameImg from "./game-image.jpg";
 
 function App() {
+
+  const onClickGameImg = (e) => {
+    console.log(e);
+    console.log(e.pageX, e.pageY)
+    console.log(e.target.offsetLeft, e.target.offsetTop)
+    console.log(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <NavBar/>
+      <div>
+      <input 
+        type="image" 
+        alt="game" 
+        src={GameImg}
+        onClick={onClickGameImg}
+        />
+      </div>
     </div>
   );
 }

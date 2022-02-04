@@ -1,8 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import './style.css';
+import { initializeApp } from 'firebase/app';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAfFcvuOKMkHIjaTtSVRd6rae5DdbrsLxM",
+  authDomain: "photo-tagging-app-12c32.firebaseapp.com",
+  projectId: "photo-tagging-app-12c32",
+  storageBucket: "photo-tagging-app-12c32.appspot.com",
+  messagingSenderId: "17546518751",
+  appId: "1:17546518751:web:b6a842e5ba66b74547c96a"
+};
+
+initializeApp(firebaseConfig);
 
 ReactDOM.render(
   <React.StrictMode>
@@ -10,8 +21,3 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

@@ -1,0 +1,17 @@
+header {
+    display: flex;
+    margin-top: 24px;
+}
+
+header h1 {
+    margin-top: 0;
+}
+
+header button {
+    margin-right: 8px;
+    height: 40px;
+}
+
+.HeaderButton {
+    margin-left: auto;
+}
