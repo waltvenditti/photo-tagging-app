@@ -15,3 +15,26 @@ header button {
 .HeaderButton {
     margin-left: auto;
 }
+
+.ClickMenu {
+   flex-direction: column;
+}
+
+.ClickMenuBtn {
+    border-radius: 0;
+    background-color: lemonchiffon;
+    border: 2px solid lightgrey;
+    border-top: 0;
+}
+
+.ClickMenuBtn:first-child {
+    border-top: 2px solid lightgrey;
+}
+
+.ClickMenuBtn:hover {
+    background-color: khaki;
+}
+
+.ClickMenuBtn:active {
+    background-color: yellow;
+}
