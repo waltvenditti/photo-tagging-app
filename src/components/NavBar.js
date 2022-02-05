@@ -3,9 +3,8 @@ import React from 'react';
 const NavBar = () => {
     return (
         <header>
-            <h1>Find The Characters</h1>
-            <button className="HeaderButton">Placeholder</button>
-            <button>Placeholder</button> 
+            <h1>Find:</h1>
+            <button className="HeaderButton">Restart</button>
         </header>
     )
 }

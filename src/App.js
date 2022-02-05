@@ -4,6 +4,9 @@ import NavBar from "./components/NavBar";
 import ClickMenu from "./components/ClickMenu";
 
 import GameImg from "./game-image.jpg";
+import CharTagGlados from "./components/CharTagGlados";
+import CharTagSCP173 from "./components/CharTagSCP173";
+import CharTagDredd from "./components/CharTagDredd";
 
 function App() {
   const [xCoord, setXCoord] = useState(0);
@@ -16,6 +19,10 @@ function App() {
   const [foundGlados, setFoundGlados] = useState(false);
   const [foundSCP173, setFoundSCP173] = useState(false);
   const [foundDredd, setFoundDredd] = useState(false);
+  const [displayGlados, setDisplayGlados] = useState("none");
+  const [displaySCP173, setDisplaySCP173] = useState("none");
+  const [displayDredd, setDisplayDredd] = useState("none");
+
 
   const changeXCoord = (newX) => {
     setXCoord(newX);
@@ -40,27 +47,16 @@ function App() {
   };
   const changeFoundGlados = () => {
     setFoundGlados(true);
+    setDisplayGlados("flex");
   }
   const changeFoundSCP173 = () => {
     setFoundSCP173(true);
+    setDisplaySCP173("flex");
   }
   const changeFoundDredd = () => {
     setFoundDredd(true);
+    setDisplayDredd("flex");
   }
-
-  const onClickGameImg = (e) => {
-    const xCoord = e.pageX - e.target.offsetLeft;
-    const yCoord = e.pageY - e.target.offsetTop;
-    changeXForClickMenu(e.pageX);
-    changeYForClickMenu(e.pageY);
-    if (displayForClickMenu === "none") {
-      changeDisplayForClickMenu("flex");
-      changeXCoord(xCoord);
-      changeYCoord(yCoord);
-    } else {
-      clearClickData();
-    }
-  };
 
   const clearClickData = () => {
     changeDisplayForClickMenu("none");
@@ -69,7 +65,6 @@ function App() {
   };
 
   useEffect(() => {
-    //console.log(xCoord, yCoord, character);
     if (checkFoundGlados()) {
       console.log("Found GLaDOS");
     } else if (checkFoundSCP173()) {
@@ -108,7 +103,6 @@ function App() {
       return false;
     }
   };
-
   const checkFoundSCP173 = () => {
     if (character !== "scp173") return false;
     if (foundSCP173) return false;
@@ -119,7 +113,6 @@ function App() {
       return false;
     }
   };
-
   const checkFoundDredd = () => {
     if (foundDredd) return false;
     if (character !== "dredd") return false;
@@ -135,6 +128,20 @@ function App() {
     changeCharacter(e.target.value);
     changeDisplayForClickMenu("none");
     changeClickMenuDummy();
+  };
+
+  const onClickGameImg = (e) => {
+    const xCoord = e.pageX - e.target.offsetLeft;
+    const yCoord = e.pageY - e.target.offsetTop;
+    changeXForClickMenu(e.pageX);
+    changeYForClickMenu(e.pageY);
+    if (displayForClickMenu === "none") {
+      changeDisplayForClickMenu("flex");
+      changeXCoord(xCoord);
+      changeYCoord(yCoord);
+    } else {
+      clearClickData();
+    }
   };
 
   return (
@@ -157,6 +164,9 @@ function App() {
         top={yForClickMenu}
         left={xForClickMenu}
       />
+      <CharTagGlados display={displayGlados}/>
+      <CharTagSCP173 display={displaySCP173}/>
+      <CharTagDredd display={displayDredd}/>
     </div>
   );
 }
