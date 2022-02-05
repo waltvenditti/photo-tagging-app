@@ -18,6 +18,8 @@ header button {
 
 .ClickMenu {
    flex-direction: column;
+   position: absolute;
+
 }
 
 .ClickMenuBtn {

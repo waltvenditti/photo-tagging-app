@@ -1,75 +1,162 @@
-import { React, useState } from 'react';
+import { React, useEffect, useState } from "react";
 
 import NavBar from "./components/NavBar";
 import ClickMenu from "./components/ClickMenu";
 
 import GameImg from "./game-image.jpg";
 
-
 function App() {
-
+  const [xCoord, setXCoord] = useState(0);
+  const [yCoord, setYCoord] = useState(0);
+  const [character, setCharacter] = useState("");
+  const [clickMenuDummy, setClickMenuDummy] = useState(true);
   const [xForClickMenu, setXForClickMenu] = useState(0);
   const [yForClickMenu, setYForClickMenu] = useState(0);
   const [displayForClickMenu, setDisplayForClickMenu] = useState("none");
+  const [foundGlados, setFoundGlados] = useState(false);
+  const [foundSCP173, setFoundSCP173] = useState(false);
+  const [foundDredd, setFoundDredd] = useState(false);
 
+  const changeXCoord = (newX) => {
+    setXCoord(newX);
+  };
+  const changeYCoord = (newY) => {
+    setYCoord(newY);
+  };
+  const changeCharacter = (character) => {
+    setCharacter(character);
+  };
+  const changeClickMenuDummy = () => {
+    setClickMenuDummy(!clickMenuDummy);
+  }
   const changeXForClickMenu = (newX) => {
     setXForClickMenu(newX);
-  }
+  };
   const changeYForClickMenu = (newY) => {
     setYForClickMenu(newY);
-  }
+  };
   const changeDisplayForClickMenu = (newDisplay) => {
     setDisplayForClickMenu(newDisplay);
+  };
+  const changeFoundGlados = () => {
+    setFoundGlados(true);
+  }
+  const changeFoundSCP173 = () => {
+    setFoundSCP173(true);
+  }
+  const changeFoundDredd = () => {
+    setFoundDredd(true);
   }
 
   const onClickGameImg = (e) => {
     const xCoord = e.pageX - e.target.offsetLeft;
     const yCoord = e.pageY - e.target.offsetTop;
-    let result;
-    console.log(e);
-    console.log(e.pageX, e.pageY)
-    console.log(e.target.offsetLeft, e.target.offsetTop)
-    console.log(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop)
-    if (checkFoundGlados(xCoord, yCoord)) {
+    changeXForClickMenu(e.pageX);
+    changeYForClickMenu(e.pageY);
+    if (displayForClickMenu === "none") {
+      changeDisplayForClickMenu("flex");
+      changeXCoord(xCoord);
+      changeYCoord(yCoord);
+    } else {
+      clearClickData();
+    }
+  };
+
+  const clearClickData = () => {
+    changeDisplayForClickMenu("none");
+    changeXCoord(0);
+    changeYCoord(0);
+  };
+
+  useEffect(() => {
+    //console.log(xCoord, yCoord, character);
+    if (checkFoundGlados()) {
       console.log("Found GLaDOS");
-    } else if (checkFoundSCP173(xCoord, yCoord)) {
+    } else if (checkFoundSCP173()) {
       console.log("Found SCP-173");
-    } else if (checkFoundDredd(xCoord, yCoord)) {
+    } else if (checkFoundDredd()) {
       console.log("Found Judge Dredd");
     } else {
       console.log("Miss");
     }
-  }
+    clearClickData();
+  }, [clickMenuDummy]);
 
-  const checkFoundGlados = (x, y) => {
-    if ((x >= 340 && x <= 570) && (y >= 2300 && y <= 2450)) return true;
-    else return false;
-  }
+  useEffect(() => {
+    if (foundGlados && foundSCP173 && foundDredd) {
+      console.log("You Win");
+    }
+  }, [foundGlados, foundSCP173, foundDredd])
 
-  const checkFoundSCP173 = (x, y) => {
-    if ((x >= 2040 && x <= 2150) && (y >= 740 && y <= 910)) return true;
-    else return false;
-  }
+  useEffect(() => {
 
-  const checkFoundDredd = (x, y) => {
-    if ((x >= 500 && x <= 565) && (y >= 1540 && y <= 1630)) return true;
-    else return false;
-  }
+  }, [foundGlados])
+  useEffect(() => {
+
+  }, [foundSCP173])
+  useEffect(() => {
+
+  }, [foundDredd])
+
+  const checkFoundGlados = () => {
+    if (character !== 'glados') return false;
+    if (foundGlados) return false;
+    if (xCoord >= 340 && xCoord <= 570 && yCoord >= 2300 && yCoord <= 2450) {
+      changeFoundGlados();
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const checkFoundSCP173 = () => {
+    if (character !== "scp173") return false;
+    if (foundSCP173) return false;
+    if (xCoord >= 2040 && xCoord <= 2150 && yCoord >= 740 && yCoord <= 910) {
+      changeFoundSCP173();
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const checkFoundDredd = () => {
+    if (foundDredd) return false;
+    if (character !== "dredd") return false;
+    if (xCoord >= 500 && xCoord <= 565 && yCoord >= 1540 && yCoord <= 1630) {
+      changeFoundDredd();
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const onClickBtn = (e) => {
+    changeCharacter(e.target.value);
+    changeDisplayForClickMenu("none");
+    changeClickMenuDummy();
+  };
 
   return (
     <div className="App">
-      <NavBar/>
+      <NavBar />
       <div>
-      <input 
-        type="image" 
-        alt="game" 
-        name="GameImg"
-        id="GameImg"
-        src={GameImg}
-        onClick={onClickGameImg}
+        <input
+          type="image"
+          alt="game"
+          name="GameImg"
+          id="GameImg"
+          src={GameImg}
+          onClick={onClickGameImg}
         />
       </div>
-      <ClickMenu display="flex" width="100px" />
+      <ClickMenu
+        display={displayForClickMenu}
+        width="100px"
+        onButtonClicked={onClickBtn}
+        top={yForClickMenu}
+        left={xForClickMenu}
+      />
     </div>
   );
 }
