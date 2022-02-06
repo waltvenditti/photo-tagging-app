@@ -16,6 +16,10 @@ header button {
     margin-left: auto;
 }
 
+#GameImg {
+    
+}
+
 .ClickMenu {
    flex-direction: column;
    position: absolute;
@@ -80,6 +84,6 @@ header button {
     justify-content: center;
     background-color:rgba(177, 233, 235, 0.80);
     position: fixed;
-    top: 10%;
-    left: 50%;
+    top: 5%;
+    left: 48%;
 }
