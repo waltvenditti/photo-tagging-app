@@ -70,3 +70,16 @@ header button {
     width: 120px;
     height: 30px;
 }
+
+.ScreenMessage {
+    border: 2px solid grey;
+    min-width: 100px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color:rgba(177, 233, 235, 0.80);
+    position: fixed;
+    top: 10%;
+    left: 50%;
+}

@@ -7,6 +7,7 @@ import GameImg from "./game-image.jpg";
 import CharTagGlados from "./components/CharTagGlados";
 import CharTagSCP173 from "./components/CharTagSCP173";
 import CharTagDredd from "./components/CharTagDredd";
+import ScreenMessage from "./components/ScreenMessage";
 
 function App() {
   const [xCoord, setXCoord] = useState(0);
@@ -22,6 +23,8 @@ function App() {
   const [displayGlados, setDisplayGlados] = useState("none");
   const [displaySCP173, setDisplaySCP173] = useState("none");
   const [displayDredd, setDisplayDredd] = useState("none");
+  const [message, setMessage] = useState("WRONG.");
+  const [msgDisplay, setMsgDisplay] = useState("none");
 
 
   const changeXCoord = (newX) => {
@@ -57,6 +60,12 @@ function App() {
     setFoundDredd(true);
     setDisplayDredd("flex");
   }
+  const changeMessage = (newMessage) => {
+    setMessage(newMessage);
+  }
+  const ChangeMsgDisplay = (dispValue) => {
+    setMsgDisplay(dispValue);
+  }
 
   const clearClickData = () => {
     changeDisplayForClickMenu("none");
@@ -66,20 +75,25 @@ function App() {
 
   useEffect(() => {
     if (checkFoundGlados()) {
-      console.log("Found GLaDOS");
+      changeMessage("Found GLaDOS");
+      setMsgDisplay("flex");
     } else if (checkFoundSCP173()) {
-      console.log("Found SCP-173");
+      changeMessage("Found SCP-173");
+      setMsgDisplay("flex");
     } else if (checkFoundDredd()) {
-      console.log("Found Judge Dredd");
+      changeMessage("Found Judge Dredd");
+      setMsgDisplay("flex");
     } else {
-      console.log("Miss");
+      changeMessage("Try Again.");
+      setMsgDisplay("flex");
     }
     clearClickData();
   }, [clickMenuDummy]);
 
   useEffect(() => {
     if (foundGlados && foundSCP173 && foundDredd) {
-      console.log("You Win");
+      changeMessage("You Win");
+      setMsgDisplay("flex");
     }
   }, [foundGlados, foundSCP173, foundDredd])
 
@@ -92,6 +106,12 @@ function App() {
   useEffect(() => {
 
   }, [foundDredd])
+
+  useEffect(() => {
+    setTimeout(() => {
+      ChangeMsgDisplay("none");
+    }, 3000)
+  }, [msgDisplay])
 
   const checkFoundGlados = () => {
     if (character !== 'glados') return false;
@@ -167,6 +187,7 @@ function App() {
       <CharTagGlados display={displayGlados}/>
       <CharTagSCP173 display={displaySCP173}/>
       <CharTagDredd display={displayDredd}/>
+      <ScreenMessage message={message} display={msgDisplay}/>
     </div>
   );
 }
