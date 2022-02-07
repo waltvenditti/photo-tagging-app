@@ -7,7 +7,6 @@ import GameImg from "./game-image.jpg";
 import CharTagGlados from "./components/CharTagGlados";
 import CharTagSCP173 from "./components/CharTagSCP173";
 import CharTagDredd from "./components/CharTagDredd";
-import ScreenMessage from "./components/ScreenMessage";
 
 function App() {
   const [xCoord, setXCoord] = useState(0);
@@ -23,21 +22,24 @@ function App() {
   const [displayGlados, setDisplayGlados] = useState("none");
   const [displaySCP173, setDisplaySCP173] = useState("none");
   const [displayDredd, setDisplayDredd] = useState("none");
-  const [message, setMessage] = useState("WRONG.");
-  const [msgDisplay, setMsgDisplay] = useState("none");
-  const [timer, setTimer] = useState(0);
   const [imgWidth, setImgWidth] = useState(0);
   // for the arrays in the three hooks below,
   // positions in the array are:
   // 0=top, 1=left, 2=width, 3=height, 4=fontSize
   // to be passed as properties to char tags andu used in style
-  const [tagDimsDreddConst, setTagDimsDreddConst] = useState(['1585px', '485px', '120px', '30px', '16px'])
-  const [tagDimsGladosConst, setTagDimsGladosConst] = useState(['2415px', '500px', '90px', '30px', '16px'])
-  const [tagDimsSCP173Const, setTagDimsSCP173Const] = useState(['790px', '2065px', '90px', '30px', '16px'])
-  
-  const [tagDimsDredd, setTagDimsDredd] = useState(['1585px', '485px', '120px', '30px', '16px'])
-  const [tagDimsGlados, setTagDimsGlados] = useState(['2415px', '500px', '90px', '30px', '16px'])
-  const [tagDimsSCP173, setTagDimsSCP173] = useState(['790px', '2065px', '90px', '30px', '16px'])
+  const [tagDimsDreddConst, setTagDimsDreddConst] = useState(['1580px', '470px', '120px', '30px', '16px']);
+  const [tagDimsGladosConst, setTagDimsGladosConst] = useState(['2420px', '450px', '90px', '30px', '16px']);
+  const [tagDimsSCP173Const, setTagDimsSCP173Const] = useState(['780px', '2050px', '90px', '30px', '16px']);
+
+  const [tagDimsDredd, setTagDimsDredd] = useState(['1585px', '485px', '120px', '30px', '16px']);
+  const [tagDimsGlados, setTagDimsGlados] = useState(['2415px', '500px', '90px', '30px', '16px']);
+  const [tagDimsSCP173, setTagDimsSCP173] = useState(['790px', '2065px', '90px', '30px', '16px']);
+
+  // index values: 0=Dredd, 1=Glados, 2=SCP-173
+  //     found=rgb(4, 107, 0)
+  // not found=rgb(218, 2, 2)
+  const [spanColors, setSpanColors] = useState(["rgb(218, 2, 2)", "rgb(218, 2, 2)", "rgb(218, 2, 2)"]);
+  const [navbarText, setNavbarText] = useState("Find the characters.");
 
 
   const changeXCoord = (newX) => {
@@ -61,32 +63,38 @@ function App() {
   const changeDisplayForClickMenu = (newDisplay) => {
     setDisplayForClickMenu(newDisplay);
   };
+  const changeFoundDredd = () => {
+    updateTagDims();
+    setFoundDredd(true);
+    setDisplayDredd("flex");
+    changeSpanColors(0, "rgb(4, 107, 0)");
+    changeNavbarText("Found Judge Dredd.");
+  }
   const changeFoundGlados = () => {
     updateTagDims();
     setFoundGlados(true);
     setDisplayGlados("flex");
+    changeSpanColors()
+    changeSpanColors(1, "rgb(4, 107, 0)");
+    changeNavbarText("Found GLaDOS.");
   }
   const changeFoundSCP173 = () => {
     updateTagDims();
     setFoundSCP173(true);
     setDisplaySCP173("flex");
-  }
-  const changeFoundDredd = () => {
-    updateTagDims();
-    setFoundDredd(true);
-    setDisplayDredd("flex");
-  }
-  const changeMessage = (newMessage) => {
-    setMessage(newMessage);
-  }
-  const ChangeMsgDisplay = (dispValue) => {
-    setMsgDisplay(dispValue);
-  }
-  const changeTimer = (timer) => {
-    setTimer(timer);
+    changeSpanColors(2, "rgb(4, 107, 0)");
+    changeNavbarText("Found SCP-173.");
   }
   const changeImgWidth = (newWidth) => {
     setImgWidth(newWidth);
+  }
+  const changeSpanColors = (index, color) => {
+    const newColors = [...spanColors];
+    newColors[index] = color;
+    setSpanColors(newColors);
+  }
+  const changeNavbarText = (newText) => {
+    setNavbarText(newText);
   }
 
   const clearClickData = () => {
@@ -96,45 +104,17 @@ function App() {
   };
 
   const firstUpdate = useRef(true);
-
-  /*
   useEffect(() => {
     if (firstUpdate.current) {
       firstUpdate.current = false;
       return;
     }
-    if (checkFoundGlados()) {
-      changeMessage("Found GLaDOS");
-      setMsgDisplay("flex");
-    } else if (checkFoundSCP173()) {
-      changeMessage("Found SCP-173");
-      setMsgDisplay("flex");
-    } else if (checkFoundDredd()) {
-      changeMessage("Found Judge Dredd");
-      setMsgDisplay("flex");
-    } else {
-      changeMessage("Try Again.");
-      setMsgDisplay("flex");
-    }
-    clearClickData();
+    if (checkFoundGlados()) return;
+    if (checkFoundSCP173()) return;
+    if (checkFoundDredd()) return;
+    changeNavbarText("Try again.");
   }, [clickMenuDummy]);
   
-  useEffect(() => {
-    if (foundGlados && foundSCP173 && foundDredd) {
-      changeMessage("You Win");
-      setMsgDisplay("flex");
-    }
-  }, [foundGlados, foundSCP173, foundDredd])
-
-  useEffect(() => {
-    // clearTimeout(timer);
-    let newTimer = setTimeout(() => {
-      ChangeMsgDisplay("none");
-    }, 4000)
-    // changeTimer(newTimer);
-  }, [msgDisplay])
-   */  
-
   const checkFoundGlados = () => {
     // 2500 is native image width
     const shrinkRatio = imgWidth/2500;
@@ -203,10 +183,6 @@ function App() {
     setTagDimsSCP173(newSCP173Dims);
   }
 
-  useEffect(() => {
-    updateTagDims();
-  }, [imgWidth])
-
   const modPXDimensions = (oldDim, adjRatio) => {
     let newDim = parseInt(oldDim.slice(0,-2));
     newDim *= adjRatio;
@@ -238,9 +214,37 @@ function App() {
     }
   };
 
+  const onClickReset = () => {
+    setSpanColors(["rgb(218, 2, 2)", "rgb(218, 2, 2)", "rgb(218, 2, 2)"])
+    changeNavbarText("Find the characters");
+    setFoundDredd(false);
+    setFoundGlados(false);
+    setFoundSCP173(false);
+    setDisplayDredd("none");
+    setDisplayGlados("none");
+    setDisplaySCP173("none");
+    // reset timer (whenever that's done)
+  }
+
+  useEffect(() => {
+    updateTagDims();
+  }, [imgWidth]);
+
+  useEffect(() => {
+    if (foundDredd && foundGlados && foundSCP173) {
+      changeNavbarText("You win.");
+    }
+  }, [foundDredd, foundGlados, foundSCP173]);
+
   return (
     <div className="App">
-      <NavBar />
+      <NavBar 
+        DreddColor={spanColors[0]}
+        GladosColor={spanColors[1]}
+        SCP173Color={spanColors[2]}
+        subtext={navbarText}
+        onClickReset={onClickReset}
+      />
       <div className="ImageDiv">
         <input
           type="image"
@@ -282,7 +286,6 @@ function App() {
         height={tagDimsDredd[3]}
         fontSize={tagDimsDredd[4]}
         />
-      <ScreenMessage message={message} display={msgDisplay}/>
     </div>
   );
 }
