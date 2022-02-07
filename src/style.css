@@ -1,6 +1,5 @@
 header {
     display: flex;
-    margin-top: 24px;
 }
 
 header h1 {
@@ -12,12 +11,29 @@ header button {
     height: 40px;
 }
 
+.NavBar {
+    position: fixed;
+    background-color: grey;
+    width: 100%;
+    padding: 0;
+}
+
+#root {
+    padding: 0;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
 .HeaderButton {
     margin-left: auto;
 }
 
 #GameImg {
     width: 100%;
+    min-width: 1500px;
 }
 
 .ClickMenu {
@@ -51,18 +67,6 @@ header button {
     align-items: center;
     justify-content: center;
     position: absolute;
-}
-
-#Glados {
-
-}
-
-#SCP173 {
-
-}
-
-#Dredd {
-
 }
 
 .ScreenMessage {

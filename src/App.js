@@ -97,6 +97,7 @@ function App() {
 
   const firstUpdate = useRef(true);
 
+  /*
   useEffect(() => {
     if (firstUpdate.current) {
       firstUpdate.current = false;
@@ -117,14 +118,14 @@ function App() {
     }
     clearClickData();
   }, [clickMenuDummy]);
-
+  
   useEffect(() => {
     if (foundGlados && foundSCP173 && foundDredd) {
       changeMessage("You Win");
       setMsgDisplay("flex");
     }
   }, [foundGlados, foundSCP173, foundDredd])
-  
+
   useEffect(() => {
     // clearTimeout(timer);
     let newTimer = setTimeout(() => {
@@ -132,7 +133,7 @@ function App() {
     }, 4000)
     // changeTimer(newTimer);
   }, [msgDisplay])
-  
+   */  
 
   const checkFoundGlados = () => {
     // 2500 is native image width
@@ -224,7 +225,6 @@ function App() {
 
   const onClickGameImg = (e) => {
     changeImgWidth(e.target.width);
-    console.log(e.target.width, e.target.height);
     const xCoord = e.pageX - e.target.offsetLeft;
     const yCoord = e.pageY - e.target.offsetTop;
     changeXForClickMenu(e.pageX);
@@ -241,7 +241,7 @@ function App() {
   return (
     <div className="App">
       <NavBar />
-      <div>
+      <div className="ImageDiv">
         <input
           type="image"
           alt="game"
