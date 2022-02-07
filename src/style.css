@@ -17,13 +17,12 @@ header button {
 }
 
 #GameImg {
-    
+    width: 100%;
 }
 
 .ClickMenu {
    flex-direction: column;
    position: absolute;
-
 }
 
 .ClickMenuBtn {
@@ -55,24 +54,15 @@ header button {
 }
 
 #Glados {
-    top: 2415px;
-    left: 500px;
-    width: 90px;
-    height: 30px;
+
 }
 
 #SCP173 {
-    top: 790px;
-    left: 2065px;
-    width: 90px;
-    height: 30px;
+
 }
 
 #Dredd {
-    top: 1585px;
-    left: 485px;
-    width: 120px;
-    height: 30px;
+
 }
 
 .ScreenMessage {

@@ -27,9 +27,17 @@ function App() {
   const [msgDisplay, setMsgDisplay] = useState("none");
   const [timer, setTimer] = useState(0);
   const [imgWidth, setImgWidth] = useState(0);
-  const [tagDimsDredd, setTagDimsDredd] = useState(['1585px', '485px', '120px', '30px'])
-  const [tagDimsGlados, setTagDimsGlados] = useState(['2415px', '500px', '90px', '30px'])
-  const [tagDimsSCP173, setTagDimsSCP173] = useState(['790px', '2065px', '90px', '30px'])
+  // for the arrays in the three hooks below,
+  // positions in the array are:
+  // 0=top, 1=left, 2=width, 3=height, 4=fontSize
+  // to be passed as properties to char tags andu used in style
+  const [tagDimsDreddConst, setTagDimsDreddConst] = useState(['1585px', '485px', '120px', '30px', '16px'])
+  const [tagDimsGladosConst, setTagDimsGladosConst] = useState(['2415px', '500px', '90px', '30px', '16px'])
+  const [tagDimsSCP173Const, setTagDimsSCP173Const] = useState(['790px', '2065px', '90px', '30px', '16px'])
+  
+  const [tagDimsDredd, setTagDimsDredd] = useState(['1585px', '485px', '120px', '30px', '16px'])
+  const [tagDimsGlados, setTagDimsGlados] = useState(['2415px', '500px', '90px', '30px', '16px'])
+  const [tagDimsSCP173, setTagDimsSCP173] = useState(['790px', '2065px', '90px', '30px', '16px'])
 
 
   const changeXCoord = (newX) => {
@@ -116,17 +124,6 @@ function App() {
       setMsgDisplay("flex");
     }
   }, [foundGlados, foundSCP173, foundDredd])
-
-  useEffect(() => {
-
-  }, [foundGlados])
-  useEffect(() => {
-
-  }, [foundSCP173])
-  useEffect(() => {
-
-  }, [foundDredd])
-
   
   useEffect(() => {
     // clearTimeout(timer);
@@ -175,7 +172,48 @@ function App() {
   };
 
   const updateTagDims = () => {
+    const shrinkRatio = imgWidth/2500;
+    // update Dredd
+    const newDreddDims = [
+      modPXDimensions(tagDimsDreddConst[0], shrinkRatio),
+      modPXDimensions(tagDimsDreddConst[1], shrinkRatio),
+      modPXDimensions(tagDimsDreddConst[2], shrinkRatio),
+      modPXDimensions(tagDimsDreddConst[3], shrinkRatio),
+      modPXDimensions(tagDimsDreddConst[4], shrinkRatio)
+    ]
+    setTagDimsDredd(newDreddDims);
+    // update GLaDOS
+    const newGladosDims = [
+      modPXDimensions(tagDimsGladosConst[0], shrinkRatio),
+      modPXDimensions(tagDimsGladosConst[1], shrinkRatio),
+      modPXDimensions(tagDimsGladosConst[2], shrinkRatio),
+      modPXDimensions(tagDimsGladosConst[3], shrinkRatio),
+      modPXDimensions(tagDimsGladosConst[4], shrinkRatio)
+    ]
+    setTagDimsGlados(newGladosDims);
+    // update SCP-173
+    const newSCP173Dims = [
+      modPXDimensions(tagDimsSCP173Const[0], shrinkRatio),
+      modPXDimensions(tagDimsSCP173Const[1], shrinkRatio),
+      modPXDimensions(tagDimsSCP173Const[2], shrinkRatio),
+      modPXDimensions(tagDimsSCP173Const[3], shrinkRatio),
+      modPXDimensions(tagDimsSCP173Const[4], shrinkRatio)
+    ]
+    setTagDimsSCP173(newSCP173Dims);
+  }
 
+  useEffect(() => {
+    updateTagDims();
+  }, [imgWidth])
+
+  const modPXDimensions = (oldDim, adjRatio) => {
+    let newDim = parseInt(oldDim.slice(0,-2));
+    newDim *= adjRatio;
+    if (newDim - Math.floor(newDim) !== 0) {
+      newDim = newDim.toFixed(4);
+    }
+    newDim += 'px';
+    return newDim;
   }
 
   const onClickBtn = (e) => {
@@ -220,9 +258,30 @@ function App() {
         top={yForClickMenu}
         left={xForClickMenu}
       />
-      <CharTagGlados display={displayGlados}/>
-      <CharTagSCP173 display={displaySCP173}/>
-      <CharTagDredd display={displayDredd}/>
+      <CharTagGlados 
+        display={displayGlados}
+        top={tagDimsGlados[0]}
+        left={tagDimsGlados[1]}
+        width={tagDimsGlados[2]}
+        height={tagDimsGlados[3]}
+        fontSize={tagDimsGlados[4]}
+        />
+      <CharTagSCP173 
+        display={displaySCP173}
+        top={tagDimsSCP173[0]}
+        left={tagDimsSCP173[1]}
+        width={tagDimsSCP173[2]}
+        height={tagDimsSCP173[3]}
+        fontSize={tagDimsSCP173[4]}
+        />
+      <CharTagDredd 
+        display={displayDredd}
+        top={tagDimsDredd[0]}
+        left={tagDimsDredd[1]}
+        width={tagDimsDredd[2]}
+        height={tagDimsDredd[3]}
+        fontSize={tagDimsDredd[4]}
+        />
       <ScreenMessage message={message} display={msgDisplay}/>
     </div>
   );
