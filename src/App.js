@@ -40,6 +40,8 @@ function App() {
   // not found=rgb(218, 2, 2)
   const [spanColors, setSpanColors] = useState(["rgb(218, 2, 2)", "rgb(218, 2, 2)", "rgb(218, 2, 2)"]);
   const [navbarText, setNavbarText] = useState("Find the characters.");
+  const [time, setTime] = useState(0);
+  const [running, setRunning] = useState(true);
 
 
   const changeXCoord = (newX) => {
@@ -223,6 +225,7 @@ function App() {
     setDisplayDredd("none");
     setDisplayGlados("none");
     setDisplaySCP173("none");
+    setTime(0);
     // reset timer (whenever that's done)
   }
 
@@ -236,6 +239,12 @@ function App() {
     }
   }, [foundDredd, foundGlados, foundSCP173]);
 
+  useEffect(() => {
+    setInterval(() => {
+        setTime((prevTime) => prevTime + 100);
+      }, 100)
+  }, [running]);
+
   return (
     <div className="App">
       <NavBar 
@@ -244,6 +253,7 @@ function App() {
         SCP173Color={spanColors[2]}
         subtext={navbarText}
         onClickReset={onClickReset}
+        time={time}
       />
       <div className="ImageDiv">
         <input

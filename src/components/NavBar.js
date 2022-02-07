@@ -9,7 +9,7 @@ const NavBar = (props) => {
         </h2>
         <p>{props.subtext}</p>
       </div>
-      <span id="timer">0:00:0</span>
+      <span id="timer">{Math.floor(props.time/1000)}:{(""+(Math.floor(props.time/100))).slice(-1)}</span>
       <button className="HeaderButton" onClick={props.onClickReset}>Restart</button>
     </header>
   );
