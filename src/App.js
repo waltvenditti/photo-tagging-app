@@ -8,6 +8,7 @@ import CharTagGlados from "./components/CharTagGlados";
 import CharTagSCP173 from "./components/CharTagSCP173";
 import CharTagDredd from "./components/CharTagDredd";
 import StartScreen from "./components/StartScreen";
+import EndScreen from "./components/EndScreen";
 
 function App() {
   const [xCoord, setXCoord] = useState(0);
@@ -87,6 +88,7 @@ function App() {
   const [gameStarted, setGameStarted] = useState(false);
   const [gameImgVis, setGameImgVis] = useState("brightness(5%)");
   const [startDivVis, setStartDivVis] = useState("flex");
+  const [endDivVis, setEndDivVis] = useState("none");
 
   const changeXCoord = (newX) => {
     setXCoord(newX);
@@ -308,6 +310,7 @@ function App() {
     if (foundDredd && foundGlados && foundSCP173) {
       changeNavbarText("You win.");
       setRunning(false);
+      setEndDivVis("flex");
     }
   }, [foundDredd, foundGlados, foundSCP173]);
 
@@ -381,6 +384,10 @@ function App() {
         onClickBegin={onClickBegin}
         display={startDivVis}
       />
+      <EndScreen
+        display={endDivVis}
+        time={time}
+        />
     </div>
   );
 }

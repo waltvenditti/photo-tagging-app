@@ -168,3 +168,18 @@ body {
     
     margin-bottom: 20px;
 }
+
+.EndScreen {
+    flex-direction: column;
+    width: 200px;
+    height: 300px;
+    background-color: lightskyblue;
+    align-items: center;
+}
+
+.EndScreen button {
+    height: 40px;
+    width: 88px;
+    border: 2px solid black;
+    border-radius: 4px;
+}
