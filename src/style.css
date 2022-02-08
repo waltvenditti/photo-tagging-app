@@ -38,7 +38,7 @@ header p {
     width: 100%;
     padding: 0;
     height: 65px;
-    z-index: 999;
+    z-index: 100;
 }
 
 #TitleAndMessage {
@@ -113,4 +113,58 @@ body {
     position: fixed;
     top: 5%;
     left: 48%;
+}
+
+.StartScreen {
+    top: 50%;
+    left: 50%;
+    margin-left: -400px;
+    margin-top: -250px;
+    position: fixed;
+    flex-direction: column;
+    background-color: lightskyblue;
+    width: 800px;
+    height: 500px;
+    align-items: center;
+    margin-bottom: 20px;
+    border: 4px solid black;
+    border-radius: 8px;
+}
+
+.StartScreen button {
+    width: 64px;
+    height: 40px;
+    background-color: rgb(170, 212, 253);
+    border: 2px solid black;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+.StartScreen button:hover {
+    background-color: rgb(67, 160, 252);
+}
+.StartScreen button:active {
+    background-color: black;
+    color: rgb(67, 160, 252);
+    font-weight: bold;
+}
+
+.StScCharsDiv {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.StScCharCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 240px;
+    background-color: lightgoldenrodyellow;
+    border: 2px solid darkslategrey;
+    border-radius: 4px;
+}
+
+.StScCharCard img {
+    
+    margin-bottom: 20px;
 }
