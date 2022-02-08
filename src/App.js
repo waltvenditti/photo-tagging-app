@@ -42,6 +42,7 @@ function App() {
   const [navbarText, setNavbarText] = useState("Find the characters.");
   const [time, setTime] = useState(0);
   const [running, setRunning] = useState(true);
+  const [timeInterval, setTimeInterval] = useState();
 
 
   const changeXCoord = (newX) => {
@@ -236,13 +237,16 @@ function App() {
   useEffect(() => {
     if (foundDredd && foundGlados && foundSCP173) {
       changeNavbarText("You win.");
+      setRunning(false);
     }
   }, [foundDredd, foundGlados, foundSCP173]);
 
   useEffect(() => {
-    setInterval(() => {
-        setTime((prevTime) => prevTime + 100);
-      }, 100)
+    if (running) {
+      setInterval(() => {
+          setTime((prevTime) => prevTime + 100);
+        }, 100)
+    }
   }, [running]);
 
   return (
