@@ -227,7 +227,7 @@ function App() {
     setDisplayGlados("none");
     setDisplaySCP173("none");
     setTime(0);
-    // reset timer (whenever that's done)
+    setRunning(true);
   }
 
   useEffect(() => {
@@ -242,11 +242,17 @@ function App() {
   }, [foundDredd, foundGlados, foundSCP173]);
 
   useEffect(() => {
+    console.log(`running var is: ${running}`)
     if (running) {
-      setInterval(() => {
+      setTimeInterval(
+        setInterval(() => {
           setTime((prevTime) => prevTime + 100);
         }, 100)
+      )
+    } else if (!running) {
+      clearInterval(timeInterval);
     }
+    console.log(`time interval obj: ${timeInterval}`)
   }, [running]);
 
   return (
