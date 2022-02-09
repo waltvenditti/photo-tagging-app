@@ -10,6 +10,8 @@ import CharTagDredd from "./components/CharTagDredd";
 import StartScreen from "./components/StartScreen";
 import EndScreen from "./components/EndScreen";
 
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
+
 function App() {
   const [xCoord, setXCoord] = useState(0);
   const [yCoord, setYCoord] = useState(0);
@@ -25,6 +27,7 @@ function App() {
   const [displaySCP173, setDisplaySCP173] = useState("none");
   const [displayDredd, setDisplayDredd] = useState("none");
   const [imgWidth, setImgWidth] = useState(0);
+  const [charCoords, setCharCoords] = useState({});
   // for the arrays in the three hooks below,
   // positions in the array are:
   // 0=top, 1=left, 2=width, 3=height, 4=fontSize
@@ -89,6 +92,8 @@ function App() {
   const [gameImgVis, setGameImgVis] = useState("brightness(5%)");
   const [startDivVis, setStartDivVis] = useState("flex");
   const [endDivVis, setEndDivVis] = useState("none");
+  const [db, setdb] = useState();
+  const [colRef, setColRef] = useState(); 
 
   const changeXCoord = (newX) => {
     setXCoord(newX);
@@ -153,8 +158,25 @@ function App() {
 
   const firstUpdate = useRef(true);
   useEffect(() => {
+    if (firstUpdate.current) return;
+    console.log(db);
+    setColRef(collection(db, "character-coords"));
+  }, [db]);
+  useEffect(() => {
+    if (firstUpdate.current) return;
+    getDocs(colRef)
+      .then((snapshot) => {
+        let coords = [];
+        snapshot.docs.forEach((doc) => {
+          coords.push({...doc.data()})
+        })
+        setCharCoords({ glados: coords[0].glados, scp173: coords[1].scp173, dredd: coords[2].dredd});
+      })
+  }, [colRef])
+  useEffect(() => {
     if (firstUpdate.current) {
       firstUpdate.current = false;
+      setdb(getFirestore());
       return;
     }
     if (checkFoundGlados()) return;
@@ -163,16 +185,18 @@ function App() {
     changeNavbarText("Try again.");
   }, [clickMenuDummy]);
 
+
+
   const checkFoundGlados = () => {
     // 2500 is native image width
     const shrinkRatio = imgWidth / 2500;
     if (character !== "glados") return false;
     if (foundGlados) return false;
     if (
-      xCoord >= shrinkRatio * 340 &&
-      xCoord <= shrinkRatio * 570 &&
-      yCoord >= shrinkRatio * 2300 &&
-      yCoord <= shrinkRatio * 2450
+      xCoord >= shrinkRatio * charCoords.glados.x1 &&
+      xCoord <= shrinkRatio * charCoords.glados.x2 &&
+      yCoord >= shrinkRatio * charCoords.glados.y1 &&
+      yCoord <= shrinkRatio * charCoords.glados.y2
     ) {
       changeFoundGlados();
       return true;
@@ -290,6 +314,7 @@ function App() {
     setDisplaySCP173("none");
     setTime(0);
     setStartDivVis("flex");
+    setEndDivVis("none");
     setGameStarted(false);
     setGameImgVis("brightness(5%)");
     if (running) setRunning(false);
@@ -302,6 +327,21 @@ function App() {
     setStartDivVis("none");
   }
 
+  const onClickPlayAgain = () => {
+    setSpanColors(["rgb(218, 2, 2)", "rgb(218, 2, 2)", "rgb(218, 2, 2)"]);
+    changeNavbarText("Find the characters");
+    setFoundDredd(false);
+    setFoundGlados(false);
+    setFoundSCP173(false);
+    setDisplayDredd("none");
+    setDisplayGlados("none");
+    setDisplaySCP173("none");
+    setTime(0);
+    setEndDivVis("none");
+    setGameStarted(true);
+    setRunning(true);
+  }
+
   useEffect(() => {
     updateTagDims();
   }, [imgWidth]);
@@ -311,11 +351,11 @@ function App() {
       changeNavbarText("You win.");
       setRunning(false);
       setEndDivVis("flex");
+      setGameStarted(false);
     }
   }, [foundDredd, foundGlados, foundSCP173]);
 
   useEffect(() => {
-    console.log(`running var is: ${running}`);
     if (running) {
       setTimeInterval(
         setInterval(() => {
@@ -325,7 +365,6 @@ function App() {
     } else if (!running) {
       clearInterval(timeInterval);
     }
-    console.log(`time interval obj: ${timeInterval}`);
   }, [running]);
 
   return (
@@ -387,6 +426,7 @@ function App() {
       <EndScreen
         display={endDivVis}
         time={time}
+        onClickPlayAgain={onClickPlayAgain}
         />
     </div>
   );

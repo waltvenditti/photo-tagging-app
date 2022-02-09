@@ -8,7 +8,7 @@ const EndScreen = (props) => {
     <div className="EndScreen" style={divStyle}>
       <h2>You Win</h2>
       <h3>Time: {(props.time)/1000} seconds</h3>
-      <button>Play Again</button>
+      <button onClick={props.onClickPlayAgain}>Play Again</button>
     </div>
   );
 };
