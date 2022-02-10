@@ -18,7 +18,7 @@ const EndScreen = (props) => {
   }, [props.highScores])
 
   return (
-    <div className="EndScreenMainDiv" >
+    <div className="EndScreenMainDiv" style={divStyle}>
       <div className="ESHighScores">
         <h2>High Scores:</h2>
         <b>

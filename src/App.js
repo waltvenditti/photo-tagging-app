@@ -97,6 +97,7 @@ function App() {
   // const [colRefHighScores, setColRefHighScores] = useState();
   const [highScores, setHighScores] = useState([{name: 't1', score: 1}, {name: 't2', score: 2}, {name: 't3', score: 3}, {name: 't4', score: 4}, {name: 't5', score: 5}, {name: 't6', score: 6}, {name: 't7', score: 7}, {name: 't8', score: 8}, {name: 't9', score: 9}, {name: 't10', score: 10}]);
   const [orderedHighScores, setOrderedHighScores] = useState();
+  const [endScreenDivHS, setEndScreenDivHS] = useState("none");
 
   const changeXCoord = (newX) => {
     setXCoord(newX);
@@ -288,15 +289,6 @@ function App() {
   const getHighScores = () => {
     const colRefHighScores = collection(db, "high-scores");
     setOrderedHighScores(query(colRefHighScores, orderBy('score')));
-    getDocs(colRefHighScores)
-      .then((snapshot) => {
-        let highScoresLocal = [];
-        snapshot.docs.forEach((doc) => {
-          highScoresLocal.push(doc.data());
-        })
-        setHighScores(highScoresLocal);
-      })
-      console.log(highScores);
   }
 
   useEffect(() => {
@@ -307,7 +299,7 @@ function App() {
         snapshot.docs.forEach((doc) => {
           orderedScores.push(doc.data());
         })
-        console.log(orderedScores);
+        setHighScores(orderedScores);
       })
   }, [orderedHighScores])
 
@@ -385,6 +377,13 @@ function App() {
       setRunning(false);
       setEndDivVis("flex");
       setGameStarted(false);
+      // unrelated, but clean up state of tag dimensions. these should not be stored locally
+      // check if player score beats high scores
+        // check against highScores[9]
+      // if yes, give displayHighScore="block" 
+        // there is currently no state for this var
+      // if no, give displayHighScore="none"
+      // when user submits high scores, set displayHighScore="none" and update the high score table
     }
   }, [foundDredd, foundGlados, foundSCP173]);
 
@@ -458,7 +457,7 @@ function App() {
       />
       <EndScreen
         display={endDivVis}
-        displayHighScore={"block"}
+        displayHighScore={endScreenDivHS}
         time={time}
         onClickPlayAgain={onClickPlayAgain}
         highScores={highScores}
