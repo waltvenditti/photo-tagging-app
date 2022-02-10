@@ -18,38 +18,38 @@ const EndScreen = (props) => {
   }, [props.highScores])
 
   return (
-    <div className="EndScreenMainDiv" style={divStyle}>
+    <div className="EndScreenMainDiv" >
       <div className="ESHighScores">
         <h2>High Scores:</h2>
         <b>
-          1. <span>arf : 10s</span>
+          1. <span>{props.highScores[0].name} : {props.highScores[0].score / 1000}s</span>
         </b>
         <b>
-          2. <span>arf : 10s</span>
+          2. <span>{props.highScores[1].name} : {props.highScores[1].score / 1000}s</span>
         </b>
         <b>
-          3. <span>arf : 10s</span>
+          3. <span>{props.highScores[2].name} : {props.highScores[2].score / 1000}s</span>
         </b>
         <b>
-          4. <span>arf : 10s</span>
+          4. <span>{props.highScores[3].name} : {props.highScores[3].score / 1000}s</span>
         </b>
         <b>
-          5. <span>arf : 10s</span>
+          5. <span>{props.highScores[4].name} : {props.highScores[4].score / 1000}s</span>
         </b>
         <b>
-          6. <span>arfarfarfa : 10s</span>
+          6. <span>{props.highScores[5].name} : {props.highScores[5].score / 1000}s</span>
         </b>
         <b>
-          7. <span>arf : 10s</span>
+          7. <span>{props.highScores[6].name} : {props.highScores[6].score / 1000}s</span>
         </b>
         <b>
-          8. <span>arf : 10s</span>
+          8. <span>{props.highScores[7].name} : {props.highScores[7].score / 1000}s</span>
         </b>
         <b>
-          9. <span>arf : 10s</span>
+          9. <span>{props.highScores[8].name} : {props.highScores[8].score / 1000}s</span>
         </b>
         <b>
-          10. <span>arf : 10s</span>
+          10. <span>{props.highScores[9].name} : {props.highScores[9].score / 1000}s</span>
         </b>
       </div>
       <div className="ESUserOptions">
@@ -59,7 +59,7 @@ const EndScreen = (props) => {
           <h2>High score achieved!</h2>
           <h3>Submit name/score: </h3>
           <div>
-            <input placeholder="10 character or less"></input>
+            <input placeholder="10 characters max" maxLength="10"></input>
             <button id="ESBtnSubmit">Submit</button>
           </div>
         </div>

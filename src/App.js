@@ -10,7 +10,7 @@ import CharTagDredd from "./components/CharTagDredd";
 import StartScreen from "./components/StartScreen";
 import EndScreen from "./components/EndScreen";
 
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, orderBy, query} from 'firebase/firestore';
 
 function App() {
   const [xCoord, setXCoord] = useState(0);
@@ -95,7 +95,8 @@ function App() {
   const [db, setdb] = useState();
   const [colRefCharCoords, setColRefCharCoords] = useState(); 
   // const [colRefHighScores, setColRefHighScores] = useState();
-  const [highScores, setHighScores] = useState([{t1:1},{t2:2},{t3:3},{t4:4},{t5:5},{t6:6},{t7:7},{t8:8},{t9:9},{t10:10}]);
+  const [highScores, setHighScores] = useState([{name: 't1', score: 1}, {name: 't2', score: 2}, {name: 't3', score: 3}, {name: 't4', score: 4}, {name: 't5', score: 5}, {name: 't6', score: 6}, {name: 't7', score: 7}, {name: 't8', score: 8}, {name: 't9', score: 9}, {name: 't10', score: 10}]);
+  const [orderedHighScores, setOrderedHighScores] = useState();
 
   const changeXCoord = (newX) => {
     setXCoord(newX);
@@ -286,6 +287,7 @@ function App() {
 
   const getHighScores = () => {
     const colRefHighScores = collection(db, "high-scores");
+    setOrderedHighScores(query(colRefHighScores, orderBy('score')));
     getDocs(colRefHighScores)
       .then((snapshot) => {
         let highScoresLocal = [];
@@ -296,6 +298,18 @@ function App() {
       })
       console.log(highScores);
   }
+
+  useEffect(() => {
+    if (orderedHighScores !== undefined)
+    getDocs(orderedHighScores)
+      .then((snapshot) => {
+        let orderedScores = [];
+        snapshot.docs.forEach((doc) => {
+          orderedScores.push(doc.data());
+        })
+        console.log(orderedScores);
+      })
+  }, [orderedHighScores])
 
   const onClickBtn = (e) => {
     changeCharacter(e.target.value);
