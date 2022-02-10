@@ -169,23 +169,59 @@ body {
     margin-bottom: 20px;
 }
 
-.EndScreen {
+
+
+.EndScreenMainDiv {
+    display: flex;
     position: fixed;
     top: 50%;
     left: 50%;
-    margin-left: -150px;
-    margin-top: -150px;
-    flex-direction: column;
-    width: 300px;
-    height: 300px;
+    margin-left: -300px;
+    margin-top: -250px;
+    width: 600px;
+    height: 500px;
     background-color: lightskyblue;
-    align-items: center;
+    align-items: flex-start;
+    justify-content: space-between;
     border: 2px solid black;
+
 }
 
-.EndScreen button {
+.ESHighScores {
+    display: flex;
+    flex-direction: column;
+    margin-top: 12px;
+    margin-left: 12px;
+    width: 200px;
+}
+
+.ESHighScores b {
+    margin-bottom: 8px;
+}
+
+.ESUserOptions {
+    display: flex;
+    flex-direction: column;
+    margin-top: 12px;
+    margin-right: 12px;
+    align-items: center;
+}
+
+.ESUserOptions h3 {
+    margin-top: 0;
+}
+
+.ESUserOptions button {
     height: 40px;
     width: 88px;
     border: 2px solid black;
     border-radius: 4px;
+}
+
+#ESBtnSubmit {
+    margin-left: 8px;
+}
+
+#ESBtnPlayAgain {
+    margin-top: 24px;
 }

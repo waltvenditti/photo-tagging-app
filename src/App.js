@@ -93,7 +93,9 @@ function App() {
   const [startDivVis, setStartDivVis] = useState("flex");
   const [endDivVis, setEndDivVis] = useState("none");
   const [db, setdb] = useState();
-  const [colRef, setColRef] = useState(); 
+  const [colRefCharCoords, setColRefCharCoords] = useState(); 
+  // const [colRefHighScores, setColRefHighScores] = useState();
+  const [highScores, setHighScores] = useState([{t1:1},{t2:2},{t3:3},{t4:4},{t5:5},{t6:6},{t7:7},{t8:8},{t9:9},{t10:10}]);
 
   const changeXCoord = (newX) => {
     setXCoord(newX);
@@ -157,14 +159,15 @@ function App() {
   };
 
   const firstUpdate = useRef(true);
+
   useEffect(() => {
     if (firstUpdate.current) return;
-    console.log(db);
-    setColRef(collection(db, "character-coords"));
+    setColRefCharCoords(collection(db, "character-coords"));
   }, [db]);
+
   useEffect(() => {
     if (firstUpdate.current) return;
-    getDocs(colRef)
+    getDocs(colRefCharCoords)
       .then((snapshot) => {
         let coords = [];
         snapshot.docs.forEach((doc) => {
@@ -172,7 +175,8 @@ function App() {
         })
         setCharCoords({ glados: coords[0].glados, scp173: coords[1].scp173, dredd: coords[2].dredd});
       })
-  }, [colRef])
+  }, [colRefCharCoords])
+
   useEffect(() => {
     if (firstUpdate.current) {
       firstUpdate.current = false;
@@ -280,6 +284,19 @@ function App() {
     return newDim;
   };
 
+  const getHighScores = () => {
+    const colRefHighScores = collection(db, "high-scores");
+    getDocs(colRefHighScores)
+      .then((snapshot) => {
+        let highScoresLocal = [];
+        snapshot.docs.forEach((doc) => {
+          highScoresLocal.push(doc.data());
+        })
+        setHighScores(highScoresLocal);
+      })
+      console.log(highScores);
+  }
+
   const onClickBtn = (e) => {
     changeCharacter(e.target.value);
     changeDisplayForClickMenu("none");
@@ -325,6 +342,7 @@ function App() {
     setGameImgVis("brightness(100%)");
     setRunning(true);
     setStartDivVis("none");
+    getHighScores();
   }
 
   const onClickPlayAgain = () => {
@@ -340,6 +358,7 @@ function App() {
     setEndDivVis("none");
     setGameStarted(true);
     setRunning(true);
+    getHighScores();
   }
 
   useEffect(() => {
@@ -425,8 +444,10 @@ function App() {
       />
       <EndScreen
         display={endDivVis}
+        displayHighScore={"block"}
         time={time}
         onClickPlayAgain={onClickPlayAgain}
+        highScores={highScores}
         />
     </div>
   );
