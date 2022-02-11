@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/photo-tagging-app/static/css/main.b6fab9cf.css",
+    "main.js": "/photo-tagging-app/static/js/main.6c8bd4d2.js",
+    "static/media/game-image.jpg": "/photo-tagging-app/static/media/game-image.055b39f0ce4f0de270b4.jpg",
+    "static/media/dredd.png": "/photo-tagging-app/static/media/dredd.f631d010d48e36efd306.png",
+    "static/media/scp173.png": "/photo-tagging-app/static/media/scp173.4ee5436d0b263c1c9a8d.png",
+    "static/media/glados.png": "/photo-tagging-app/static/media/glados.2ad61788cc0844295f32.png",
+    "index.html": "/photo-tagging-app/index.html",
+    "main.b6fab9cf.css.map": "/photo-tagging-app/static/css/main.b6fab9cf.css.map",
+    "main.6c8bd4d2.js.map": "/photo-tagging-app/static/js/main.6c8bd4d2.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b6fab9cf.css",
+    "static/js/main.6c8bd4d2.js"
+  ]
+}
