@@ -10,7 +10,7 @@ import CharTagDredd from "./components/CharTagDredd";
 import StartScreen from "./components/StartScreen";
 import EndScreen from "./components/EndScreen";
 
-import { getFirestore, collection, getDocs, orderBy, query} from 'firebase/firestore';
+import { getFirestore, collection, getDocs, orderBy, query, addDoc} from 'firebase/firestore';
 
 function App() {
   const [xCoord, setXCoord] = useState(0);
@@ -98,6 +98,7 @@ function App() {
   const [highScores, setHighScores] = useState([{name: 't1', score: 1}, {name: 't2', score: 2}, {name: 't3', score: 3}, {name: 't4', score: 4}, {name: 't5', score: 5}, {name: 't6', score: 6}, {name: 't7', score: 7}, {name: 't8', score: 8}, {name: 't9', score: 9}, {name: 't10', score: 10}]);
   const [orderedHighScores, setOrderedHighScores] = useState();
   const [endScreenDivHS, setEndScreenDivHS] = useState("none");
+  const [colRef, setColRef] = useState();
 
   const changeXCoord = (newX) => {
     setXCoord(newX);
@@ -288,6 +289,7 @@ function App() {
 
   const getHighScores = () => {
     const colRefHighScores = collection(db, "high-scores");
+    setColRef(colRefHighScores);
     setOrderedHighScores(query(colRefHighScores, orderBy('score')));
   }
 
@@ -367,6 +369,20 @@ function App() {
     getHighScores();
   }
 
+  const onClickSubmit = (e) => {
+    e.preventDefault();
+    setEndScreenDivHS("none");
+    const name = e.nativeEvent.target.elements[0].value;
+    const hsObj = {
+      name: name,
+      score: time
+    }
+    addDoc(colRef, hsObj)
+      .then(() => {
+        getHighScores();
+      })
+  }
+
   useEffect(() => {
     updateTagDims();
   }, [imgWidth]);
@@ -377,12 +393,14 @@ function App() {
       setRunning(false);
       setEndDivVis("flex");
       setGameStarted(false);
+      if (time < highScores[9].score) {
+        console.log(time, highScores[9].score)
+        setEndScreenDivHS("block");
+      } else if (endScreenDivHS !== "none") {
+        setEndScreenDivHS("none");
+      }
       // unrelated, but clean up state of tag dimensions. these should not be stored locally
-      // check if player score beats high scores
-        // check against highScores[9]
-      // if yes, give displayHighScore="block" 
-        // there is currently no state for this var
-      // if no, give displayHighScore="none"
+      
       // when user submits high scores, set displayHighScore="none" and update the high score table
     }
   }, [foundDredd, foundGlados, foundSCP173]);
@@ -459,6 +477,7 @@ function App() {
         display={endDivVis}
         displayHighScore={endScreenDivHS}
         time={time}
+        onClickSubmit={onClickSubmit}
         onClickPlayAgain={onClickPlayAgain}
         highScores={highScores}
         />
